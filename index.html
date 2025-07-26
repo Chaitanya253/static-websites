@@ -1,74 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Simple Calculator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f4f4f4;
     }
-    input, select, button {
-      padding: 10px;
-      margin: 10px;
-      font-size: 16px;
+    .calculator {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    #result {
+      width: 100%;
+      height: 50px;
+      font-size: 20px;
+      text-align: right;
+      margin-bottom: 10px;
+      padding: 5px;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 60px);
+      gap: 10px;
+    }
+    button {
+      height: 50px;
+      font-size: 18px;
+      border: none;
+      background: #007BFF;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
     }
   </style>
 </head>
 <body>
+  <div class="calculator">
+    <input type="text" id="result" disabled>
+    <div class="buttons">
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button onclick="appendValue('/')">/</button>
 
-  <h2>Simple Calculator</h2>
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button onclick="appendValue('*')">*</button>
 
-  <input type="number" id="num1" placeholder="Enter first number">
-  <input type="number" id="num2" placeholder="Enter second number">
-  
-  <br>
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button onclick="appendValue('-')">-</button>
 
-  <select id="operator">
-    <option value="+">+</option>
-    <option value="-">−</option>
-    <option value="*">×</option>
-    <option value="/">÷</option>
-  </select>
+      <button onclick="appendValue('0')">0</button>
+      <button onclick="appendValue('.')">.</button>
+      <button onclick="calculate()">=</button>
+      <button onclick="appendValue('+')">+</button>
 
-  <br>
-
-  <button onclick="calculate()">Calculate</button>
-
-  <h3 id="result">Result: </h3>
+      <button onclick="clearResult()" style="grid-column: span 4; background: #dc3545;">C</button>
+    </div>
+  </div>
 
   <script>
+    function appendValue(val) {
+      document.getElementById("result").value += val;
+    }
+
     function calculate() {
-      var num1 = parseFloat(document.getElementById("num1").value);
-      var num2 = parseFloat(document.getElementById("num2").value);
-      var operator = document.getElementById("operator").value;
-      var result;
-
-      if (isNaN(num1) || isNaN(num2)) {
-        result = "Please enter valid numbers!";
-      } else {
-        switch(operator) {
-          case '+':
-            result = num1 + num2;
-            break;
-          case '-':
-            result = num1 - num2;
-            break;
-          case '*':
-            result = num1 * num2;
-            break;
-          case '/':
-            result = num2 !== 0 ? (num1 / num2) : "Cannot divide by 0";
-            break;
-          default:
-            result = "Invalid operator";
-        }
+      try {
+        document.getElementById("result").value = eval(document.getElementById("result").value);
+      } catch {
+        document.getElementById("result").value = "Error";
       }
+    }
 
-      document.getElementById("result").innerText = "Result: " + result;
+    function clearResult() {
+      document.getElementById("result").value = "";
     }
   </script>
-
 </body>
 </html>
-
